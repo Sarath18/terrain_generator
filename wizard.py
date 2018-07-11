@@ -12,9 +12,6 @@ from urllib import urlretrieve
 
 def modelFolderGenerator(heightmap):
 
-	#Creating our world file
-	worldGenerator()
-
 	#Creating our auto generated terrain model directory
 	os.chdir(os.path.expanduser("~/.gazebo/models/"))
 	path = os.getcwd()
@@ -61,6 +58,7 @@ if __name__ == "__main__":
 
 	#Welcome text
 	cwd = os.getcwd()
+	print cwd
 	print "WELCOME TO AUTOMATIC TERRAIN GENEREATOR"
 
 	#Ask user for heightmap input
@@ -80,11 +78,22 @@ if __name__ == "__main__":
 	#Creating a autogen_terrain folder with terrain information and also the world file
 	modelFolderGenerator(heightmap)
 
+	destination = raw_input("World file destination:")
+	if destination=="":
+		destination=cwd
+	os.chdir(destination)
+
+	#Creating our world file
+	worldGenerator()
+
 	#Success output
 	print "Terrain successully generated"
 
 	#Opening the generated world in Gazebo
 	time.sleep(1)
 	print "Loading World..."
-	os.chdir(os.path.expanduser(cwd))
+
 	call(["gazebo","terrain.world"])
+
+	os.chdir(os.path.expanduser(cwd))
+	print os.listdir()
