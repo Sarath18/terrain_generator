@@ -10,6 +10,7 @@ import cv2
 from urllib import urlretrieve
 
 
+
 def modelFolderGenerator(heightmap):
 
 	#Creating our auto generated terrain model directory
@@ -78,6 +79,16 @@ if __name__ == "__main__":
 	#Creating a autogen_terrain folder with terrain information and also the world file
 	modelFolderGenerator(heightmap)
 
+	os.chdir(os.path.expanduser(cwd))
+	os.chdir("textures")
+	texture_path = os.getcwd()
+	imgfiles = os.listdir(texture_path)
+	for imgfile in imgfiles:
+		#call(["cp",str(imgfile),"~/.gazebo/models/autogen_terrain/materials/textures/"])
+		command = "cp "+str(imgfile)+" ~/.gazebo/models/autogen_terrain/materials/textures/"
+		os.system(command)
+
+
 	destination = raw_input("World file destination:")
 	if destination=="":
 		destination=cwd
@@ -85,6 +96,8 @@ if __name__ == "__main__":
 
 	#Creating our world file
 	worldGenerator()
+
+
 
 	#Success output
 	print "Terrain successully generated"
