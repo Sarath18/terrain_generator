@@ -4,9 +4,7 @@ Terrains are generated using the heightmap provided by the user which is stored 
 
 Heightmaps are basically rasterized images that contain information about *surface elevations*. Using this elevation information we can create beautiful terrains.
 
-<img src="/images/island.png" height=200 width=200>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://image.ibb.co/gafPCT/terrain.png" height=200>
+<img src="/images/island.png" height=200 width=200>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://image.ibb.co/gafPCT/terrain.png" height=200>
 
 
 ### Working
@@ -26,8 +24,13 @@ The wizard basically does the following:
 Install the required files to run on your local system:
 
 - Cloning the repository
+
       git clone https://github.com/Sarath18/terrain_generator
+
 - lxml
+
       sudo pip install lxml
+
 - urllib
+
       sudo pip install urllib
