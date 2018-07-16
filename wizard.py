@@ -9,6 +9,31 @@ import time
 import cv2
 from urllib import urlretrieve
 
+class worldSettings(object):
+    def __init__(self):
+        self.ambient = "120 120 120 255"
+        self.time = "10:00"
+
+    def worldScene(self):
+        self.time = raw_input("Enter time of day[24 hrs](hh:mm): ")
+        time = self.time[0:2]
+        time = int(time)
+
+        #Night / Early Morning
+        if time<6 or time>=21:
+            self.ambient = "20 40 50 255"
+        #Dawn
+        elif time<7 and time>=6:
+            self.ambient = "120 80 60 255"
+        #After Dawn
+        elif time<8 and time>=7:
+            self.ambient = "120 70 80 255"
+        #Before Dusk
+        elif time<20 and time>19:
+            self.ambient = "120 70 80 255"
+        #Dusk
+        elif time<21 and time>=20:
+            self.ambient = "120 80 60 255"
 
 
 def modelFolderGenerator(heightmap):
@@ -39,18 +64,14 @@ def modelFolderGenerator(heightmap):
     os.mkdir("textures")
     os.chdir("textures")
 
+    #Saving the heightmap inside terrain model textures
     cv2.imwrite("heightmap.png",heightmap)
 
 
 def imageResizer(path):
     hm = cv2.imread(path)
     hm_resize = cv2.resize(hm,(129,129))
-    '''
-    cv2.imshow("Heightmap",hm_resize)
-    k = cv2.waitKey(0)
-    if k==27:
-        destroyWindow('Heightmap')
-    '''
+
     return hm_resize
 
 
@@ -79,24 +100,26 @@ if __name__ == "__main__":
     #Creating a autogen_terrain folder with terrain information and also the world file
     modelFolderGenerator(heightmap)
 
+    #Saving Textures into the terrain model
     os.chdir(os.path.expanduser(cwd))
     os.chdir("textures")
     texture_path = os.getcwd()
     imgfiles = os.listdir(texture_path)
     for imgfile in imgfiles:
-        #call(["cp",str(imgfile),"~/.gazebo/models/autogen_terrain/materials/textures/"])
         command = "cp "+str(imgfile)+" ~/.gazebo/models/autogen_terrain/materials/textures/"
         os.system(command)
 
-
-    destination = raw_input("World file destination:")
+    #Changing the directory to the output path for the .world
+    destination = raw_input("World file destination(Press Enter to pass):")
     if destination=="":
         destination=cwd
     os.chdir(destination)
 
-    #Creating our world file
-    worldGenerator()
 
+    #Creating our world file
+    w = worldSettings()
+    w.worldScene()
+    worldGenerator(w)
 
 
     #Success output
