@@ -83,6 +83,38 @@ if __name__ == "__main__":
     print cwd
     print "WELCOME TO AUTOMATIC TERRAIN GENEREATOR"
 
+    #Choice Menu
+    check = False
+    while check == False:
+        print "1. Insert Heightmap from disk"
+        print "2. Insert Heightmap from URL"
+        print "3. Use Earth's Terrain"
+
+        choice = int(raw_input("Enter a choice: "))
+
+        #Heightmpa on Disk
+        if choice == 1:
+            path = raw_input("Enter the location of the heightmap:")
+            check = True
+
+        #Heightmap from URL
+        elif choice == 2:
+            link = raw_input("Enter the url of heightmap:")
+            urlretrieve(link,"img.png")
+            path = "./img.png"
+            check = True
+
+        #HeightMap of Earth's terrain
+        elif choice == 3:
+            print "\nUnder Development, choose something else!\n"
+            check = False
+
+        #Default Case
+        else:
+            print "\nPlase enter a valid choice.!\n"
+            check = False
+
+    '''
     #Ask user for heightmap input
     check = raw_input("Do you have a heightmap?(y/n):")
 
@@ -93,6 +125,7 @@ if __name__ == "__main__":
         link = raw_input("Enter the url of heightmap:")
         urlretrieve(link,"img.png")
         path = "./img.png"
+    '''
 
     #Resizing the image to 2*n+1 dimention: (129x129)
     heightmap = imageResizer(path)
@@ -132,4 +165,3 @@ if __name__ == "__main__":
     call(["gazebo","terrain.world"])
 
     os.chdir(os.path.expanduser(cwd))
-    print os.listdir()
